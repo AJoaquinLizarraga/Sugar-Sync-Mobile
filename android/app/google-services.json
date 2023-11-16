@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "797764504841",
+    "project_id": "sugar-sync-ea81d",
+    "storage_bucket": "sugar-sync-ea81d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:797764504841:android:97a46b4c5d784861d057d8",
+        "android_client_info": {
+          "package_name": "com.sugarsyncmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "797764504841-0tiau0o6i8h6cu8d06ldkua3ckuing8l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sugarsyncmobile",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "797764504841-fdbv5dhj1cgb3nmvqo79nllppqfbafsq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0cAmvhKp0nyHQidiQamny9hCt-qlMxHA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "797764504841-fdbv5dhj1cgb3nmvqo79nllppqfbafsq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
