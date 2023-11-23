@@ -3,12 +3,14 @@ import {StyleSheet, Text, View, Button} from 'react-native';
 
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import {Modal, Portal, TextInput} from 'react-native-paper';
 
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import Form from '../../Components/Form';
 
 GoogleSignin.configure({
   webClientId:
@@ -62,65 +64,39 @@ const logOut = async () => {
     console.log('log out');
   });
 };
+
 const Login = () => {
   const [token, setToken] = useState({});
+  // const [visible, setVisible] = useState(false);
 
-  // const onGoogleButtonPress = async () => {
-  //   try {
-  //     await GoogleSignin.hasPlayServices();
-  //     const {idToken} = await GoogleSignin.signIn();
-  //     setState({userInfo});
-  //     console.log(state);
-  //   } catch (error) {
-  //     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-  //       // user cancelled the login flow
-  //     } else if (error.code === statusCodes.IN_PROGRESS) {
-  //       // operation (e.g. sign in) is in progress already
-  //     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-  //       // play services not available or outdated
-  //     } else {
-  //       // some other error happened
-  //     }
-  //   }
-  // };
+  // const showModal = () => setVisible(true);
+  // const hideModal = () => setVisible(false);
+  const containerStyle = {backgroundColor: 'white', padding: 20};
   return (
     <View style={styles.container}>
+      <View>
+        <Form />
+      </View>
       <Text>este es el login</Text>
-      <GoogleSigninButton
+      {/* <GoogleSigninButton
         title="Google Sign-In"
-        onPress={
-          () => {
-            onGoogleButtonPress()
-              .then(() => {
-                console.log('conectado con google');
-              })
-              .then(() => {
-                firestore()
-                  .collection('android')
-                  // .doc('algo mas')
-                  .add(data)
-                  .then(() => {
-                    console.log('User added!');
-                  });
-              });
-          }
-          // .then(async () => {
-          //   const data = {
-          //     diabetesType: 1,
-          //     age: 25,
-          //     creadoConMobile: 'siiiii',
-          //     // dateExample: Timestamp.fromDate(new Date("November 15, 2023")),
-          //   };
-
-          //   // firestore(db).collection('users').doc('android').add(data);
-          //   const userDocument = firestore()
-          //     .collection('users')
-          //     .doc('person');
-          //   console.log(userDocument);
-          // })
-        }
-      />
-      <Button title="Log-Out" onPress={logOut} />
+        onPress={() => {
+          onGoogleButtonPress()
+            .then(() => {
+              console.log('conectado con google');
+            })
+            .then(() => {
+              firestore()
+                .collection('android')
+                // .doc('algo mas')
+                .add(data)
+                .then(() => {
+                  console.log('User added!');
+                });
+            });
+        }}
+      /> */}
+      {/* <Button title="show" onPress={showModal} /> */}
     </View>
   );
 };

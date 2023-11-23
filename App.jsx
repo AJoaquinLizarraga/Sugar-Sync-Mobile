@@ -7,7 +7,7 @@
 
 import React from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
-import * as Icons from 'react-native-vector-icons';
+import * as Iconos from 'react-native-vector-icons';
 import Routes from './src/routes';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {PaperProvider} from 'react-native-paper';
@@ -20,7 +20,7 @@ function App() {
           <View style={styles.android}>
             <Routes
               settings={{
-                icon: props => <Icons {...props} />,
+                icon: props => <Iconos {...props} />,
               }}
             />
           </View>
