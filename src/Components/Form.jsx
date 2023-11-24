@@ -4,17 +4,9 @@ import {
   StyleSheet,
   Button,
   View,
-  Image,
   TouchableOpacity,
 } from 'react-native';
-import {
-  Modal,
-  Portal,
-  TextInput,
-  Divider,
-  Text,
-  Menu,
-} from 'react-native-paper';
+import {Modal, Portal, TextInput, Divider, Menu} from 'react-native-paper';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -23,79 +15,59 @@ import {
 const Form = () => {
   const [visible, setVisible] = useState(false);
   const [visibleMenu, setVisibleMenu] = useState(false);
-  const [genderSelected, setGenderSelected] = useState('');
 
-  const showModal = () => setVisible(true);
-  const hideModal = () => setVisible(false);
-  const containerStyle = {backgroundColor: 'white', padding: 20};
+  const showModal = () => setVisible(!visible);
+  const openMenu = () => setVisibleMenu(!visibleMenu);
 
-  const openMenu = () => setVisibleMenu(true);
-
-  const closeMenu = () => setVisibleMenu(false);
-
-  const menuGender = () => {
-    return (
-      <View style={{flex: 1}}>
-        <Menu.Item onPress={() => {}} title="Item 1" />
-        <Menu.Item onPress={() => {}} title="Item 2" />
-        <Divider />
-        <Menu.Item onPress={() => {}} title="Item 3" />
-      </View>
-    );
-  };
   return (
     <View style={styles.container}>
       <Portal>
         <Modal
-          style={styles.modal}
           visible={visible}
-          onDismiss={hideModal}
-          contentContainerStyle={containerStyle}>
+          onDismiss={showModal}
+          contentContainerStyle={styles.modal}>
           <ScrollView>
             <TextInput
               mode="outlined"
               label="Fullname"
               placeholder="John Random"
-              // keyboardType="ascii-capable"
+              contentStyle={styles.textInput}
+              outlineStyle={styles.outline}
             />
             <TextInput
               mode="outlined"
               label="Email"
               placeholder="Type something"
+              outlineStyle={styles.outline}
               keyboardType="email-address"
             />
             <TextInput
               mode="outlined"
-              label="edad"
+              label="Age"
               placeholder="Type something"
+              outlineStyle={styles.outline}
               keyboardType="number-pad"
             />
             <TextInput
               mode="outlined"
-              label="edad"
+              label="Diabetes Type"
               placeholder="Type something"
-              keyboardType="number-pad"></TextInput>
-            <Text
-              // mode="outlined"
-              label="gender"
-              // value={gender}
-              placeholder="Male/Female"
+              outlineStyle={styles.outline}
               keyboardType="number-pad"
             />
+
             <Menu
               visible={visibleMenu}
-              onDismiss={closeMenu}
+              onDismiss={openMenu}
               anchorPosition={('center', 'bottom')}
               anchor={
-                <TouchableOpacity
-                  title="algo"
-                  onPress={() => {
-                    openMenu();
-                  }}>
+                <TouchableOpacity title="algo" onPress={openMenu}>
                   <TextInput
                     mode="outlined"
-                    label="show"
-                    placeholder="Gender"
+                    label="Press for select gender"
+                    contentStyle={styles.textInput}
+                    // placeholder="Press for select"
+                    outlineStyle={styles.outline}
                     disabled="false"
                     // onPress={openMenu}
                   />
@@ -119,8 +91,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  textInput: {
+    // marginVertical: 10
+    // textColor: 'white',
+  },
+  outline: {
+    borderRadius: 10,
+  },
+
   modal: {
-    marginHorizontal: wp('3%'),
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    marginHorizontal: wp('2%'),
   },
 });
 
