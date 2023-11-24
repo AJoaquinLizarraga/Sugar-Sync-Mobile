@@ -67,11 +67,7 @@ const logOut = async () => {
 
 const Login = () => {
   const [token, setToken] = useState({});
-  // const [visible, setVisible] = useState(false);
 
-  // const showModal = () => setVisible(true);
-  // const hideModal = () => setVisible(false);
-  const containerStyle = {backgroundColor: 'white', padding: 20};
   return (
     <View style={styles.container}>
       <View>
