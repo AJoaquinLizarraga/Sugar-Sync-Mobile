@@ -5,6 +5,8 @@ import {
   Button,
   View,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import {Modal, Portal, TextInput, Divider, Menu} from 'react-native-paper';
 import {
@@ -21,43 +23,40 @@ import {imcCalcule} from '../utils/imcFormula';
 
 const Form = () => {
   const [visible, setVisible] = useState(false);
-  const [visibleMenu, setVisibleMenu] = useState(false);
-  const [visibleMenu2, setVisibleMenu2] = useState(false);
-  const [visibleMenu3, setVisibleMenu3] = useState(false);
-  const [visibleMenu4, setVisibleMenu4] = useState(false);
-  const [visibleMenu5, setVisibleMenu5] = useState(false);
-  const [valueType, setValueType] = useState('');
-  const [valueGender, setValueGender] = useState('');
-  const [rapidInsulin, setRapidInsulin] = useState('');
-  const [slowInsulin, setSlowInsulin] = useState('');
-  // const [calculoDeFactorDeCorreccion, setCalculoDeFactorDeCorreccion] =
-  //   useState('algo');
+  const [formValues, setFormValues] = useState({
+    fullName: '',
+    email: '',
+    age: '',
+    gender: '',
+    diabetesType: '',
+    rapidInsulin: '',
+    slowInsulin: '',
+    doseRapidInsulin: '',
+    doseSlowInsulin: '',
+  });
 
   const showModal = () => setVisible(!visible);
-  const openMenu = () => setVisibleMenu(!visibleMenu);
-  const openMenu2 = () => setVisibleMenu2(!visibleMenu2);
-  const openMenu3 = () => setVisibleMenu3(!visibleMenu3);
-  const openMenu4 = () => setVisibleMenu4(!visibleMenu4);
-  const openMenu5 = () => setVisibleMenu5(!visibleMenu5);
+  const openMenu = menuName => setFormValues({...formValues, [menuName]: true});
+  const handleInputChange = (name, value) =>
+    setFormValues({...formValues, [name]: value});
 
-  const handleType = type => {
-    setValueType(type);
-    return;
+  const handleDeleteMenuSelection = name => {
+    const formValueUpgraded = {...formValues};
+    const nombre = `${name}MenuVisible`;
+    delete formValueUpgraded[nombre];
+    setFormValues(formValueUpgraded);
   };
-  const handleGender = gender => {
-    setValueGender(gender);
-    return;
-  };
-  const handleRapidInsulin = insulin => {
-    setRapidInsulin(insulin);
-    return;
-  };
-  const handleSlowInsulin = insulin => {
-    setSlowInsulin(insulin);
-    return;
+
+  const handleMenuSelection = (name, value) => {
+    setFormValues({
+      ...formValues,
+      [name]: value,
+      [`${name}MenuVisible`]: false,
+    });
   };
 
   return (
+    // <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style={styles.container}>
       <Portal>
         <Modal
@@ -70,17 +69,21 @@ const Form = () => {
             {/* *************************************************************************************** */}
             <TextInput
               style={styles.textInput}
+              onChangeText={text => handleInputChange('fullName', text)}
               mode="outlined"
               label="Fullname"
               placeholder="John Random"
               // contentStyle={styles.textInput}
               outlineStyle={styles.outline}
+              keyboardType="name-phone-pad"
+              autoCapitalize="words"
             />
             {/* *************************************************************************************** */}
             {/* *****************************************EMAIL***************************************** */}
             {/* *************************************************************************************** */}
             <TextInput
               style={styles.textInput}
+              onChangeText={text => handleInputChange('email', text)}
               mode="outlined"
               label="Email"
               placeholder="Type something"
@@ -92,6 +95,7 @@ const Form = () => {
             {/* *************************************************************************************** */}
             <TextInput
               style={styles.textInput}
+              onChangeText={text => handleInputChange('age', text)}
               mode="outlined"
               label="Age"
               placeholder="Type something"
@@ -102,55 +106,54 @@ const Form = () => {
             {/* *****************************************GENDER**************************************** */}
             {/* *************************************************************************************** */}
             <Menu
-              visible={visibleMenu2}
+              visible={formValues.genderMenuVisible}
               anchorPosition={('center', 'bottom')}
               anchor={
-                <TouchableOpacity onPress={openMenu2}>
+                <TouchableOpacity onPress={() => openMenu('genderMenuVisible')}>
                   <TextInput
                     style={styles.textInput}
                     mode="outlined"
                     label={
-                      valueGender === ''
+                      formValues.gender === ''
                         ? 'Press for select gender'
-                        : valueGender
+                        : formValues.gender
                     }
-                    // contentStyle={styles.textInput}
                     outlineStyle={styles.outline}
                     editable={false}
                   />
                 </TouchableOpacity>
               }>
-              {GENDERS.map((gender, index) => {
-                return (
-                  <Menu.Item
-                    key={index}
-                    onPress={() => {
-                      handleGender(gender), openMenu2();
-                    }}
-                    title={gender}
-                  />
-                );
-              })}
+              {GENDERS.map((gender, index) => (
+                <Menu.Item
+                  key={index}
+                  onPress={() => {
+                    handleMenuSelection('gender', gender);
+                  }}
+                  // onDismiss={() => {
+                  //   handleDeleteMenuSelection(gender);
+                  // }}
+                  title={gender}
+                />
+              ))}
             </Menu>
             {/* *************************************************************************************** */}
             {/* *************************************DIABETES TYPE************************************* */}
             {/* *************************************************************************************** */}
             <Menu
-              visible={visibleMenu}
+              visible={formValues.diabetesTypeMenuVisible}
               anchorPosition={('center', 'bottom')}
               anchor={
-                <TouchableOpacity onPress={openMenu}>
+                <TouchableOpacity
+                  onPress={() => openMenu('diabetesTypeMenuVisible')}>
                   <TextInput
                     style={styles.textInput}
                     mode="outlined"
                     label={
-                      valueType === ''
-                        ? 'Press for select Diabetes Type'
-                        : valueType
+                      formValues.diabetesType === ''
+                        ? 'Press for select diabetesType'
+                        : formValues.diabetesType
                     }
-                    // contentStyle={styles.textInput}
                     outlineStyle={styles.outline}
-                    // disabled="false"
                     editable={false}
                   />
                 </TouchableOpacity>
@@ -159,10 +162,7 @@ const Form = () => {
                 return (
                   <Menu.Item
                     key={index}
-                    onPress={() => {
-                      handleType(type);
-                      openMenu();
-                    }}
+                    onPress={() => handleMenuSelection('diabetesType', type)}
                     title={type}
                   />
                 );
@@ -174,17 +174,18 @@ const Form = () => {
             <View style={{flex: 1, flexDirection: 'row'}}>
               <View style={{flex: 0.75}}>
                 <Menu
-                  visible={visibleMenu3}
+                  visible={formValues.rapidInsulinMenuVisible}
                   anchorPosition={'bottom'}
                   anchor={
-                    <TouchableOpacity onPress={openMenu3}>
+                    <TouchableOpacity
+                      onPress={() => openMenu('rapidInsulinMenuVisible')}>
                       <TextInput
                         style={styles.textInput}
                         mode="outlined"
                         label={
-                          rapidInsulin === ''
+                          formValues.rapidInsulin === ''
                             ? 'Rapid Action Insulin'
-                            : rapidInsulin
+                            : formValues.rapidInsulin
                         }
                         // contentStyle={styles.textInput}
                         outlineStyle={styles.outline}
@@ -197,7 +198,7 @@ const Form = () => {
                       <Menu.Item
                         key={index}
                         onPress={() => {
-                          handleRapidInsulin(insulin), openMenu3();
+                          handleMenuSelection('rapidInsulin', insulin);
                         }}
                         title={insulin}
                       />
@@ -217,6 +218,9 @@ const Form = () => {
                   ]}
                   mode="outlined"
                   label="dose"
+                  onChangeText={dose => {
+                    handleInputChange('doseRapidInsulin', dose);
+                  }}
                   placeholder="Type something"
                   outlineStyle={styles.outline}
                   keyboardType="number-pad"
@@ -229,19 +233,19 @@ const Form = () => {
             <View style={{flex: 1, flexDirection: 'row'}}>
               <View style={{flex: 0.75}}>
                 <Menu
-                  visible={visibleMenu4}
+                  visible={formValues.slowInsulinMenuVisible}
                   anchorPosition={'bottom'}
                   anchor={
-                    <TouchableOpacity onPress={openMenu4}>
+                    <TouchableOpacity
+                      onPress={() => openMenu('slowInsulinMenuVisible')}>
                       <TextInput
                         style={styles.textInput}
                         mode="outlined"
                         label={
-                          slowInsulin === ''
+                          formValues.slowInsulin === ''
                             ? 'Slow Action Insulin'
-                            : slowInsulin
+                            : formValues.slowInsulin
                         }
-                        // contentStyle={styles.textInput}
                         outlineStyle={styles.outline}
                         editable={false}
                       />
@@ -252,7 +256,7 @@ const Form = () => {
                       <Menu.Item
                         key={index}
                         onPress={() => {
-                          handleSlowInsulin(insulin), openMenu4();
+                          handleMenuSelection('slowInsulin', insulin);
                         }}
                         title={insulin}
                       />
@@ -268,12 +272,21 @@ const Form = () => {
                   ]}
                   mode="outlined"
                   label="dose"
+                  onChangeText={dose => {
+                    handleInputChange('doseSlowInsulin', dose);
+                  }}
                   placeholder="Type something"
                   outlineStyle={styles.outline}
                   keyboardType="number-pad"
                 />
               </View>
             </View>
+            <Button
+              title="press"
+              onPress={() => {
+                console.log(formValues);
+              }}
+            />
             {/* <TextInput
               style={styles.textInput}
               mode="outlined"
@@ -301,6 +314,7 @@ const Form = () => {
       </Portal>
       <Button title="show" onPress={showModal} />
     </View>
+    // </TouchableWithoutFeedback>
   );
 };
 
