@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
+import 'dotenv/config';
 
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -13,8 +14,7 @@ import {
 import Form from '../../Components/Form';
 
 GoogleSignin.configure({
-  webClientId:
-    '797764504841-fdbv5dhj1cgb3nmvqo79nllppqfbafsq.apps.googleusercontent.com',
+  webClientId: process.env.WEB_CLIENT_ID,
 });
 
 async function onGoogleButtonPress() {

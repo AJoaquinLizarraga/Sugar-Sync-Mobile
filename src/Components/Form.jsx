@@ -22,7 +22,6 @@ import {
 import {imcCalcule} from '../utils/imcFormula';
 
 const Form = () => {
-  const [visible, setVisible] = useState(false);
   const [formValues, setFormValues] = useState({
     fullName: '',
     email: '',
@@ -34,11 +33,15 @@ const Form = () => {
     doseRapidInsulin: '',
     doseSlowInsulin: '',
   });
-
+  
+  const [visible, setVisible] = useState(false);
   const showModal = () => setVisible(!visible);
+
+  
   const openMenu = menuName => setFormValues({...formValues, [menuName]: true});
-  const handleInputChange = (name, value) =>
+  const handleInputChange = (name, value) => {
     setFormValues({...formValues, [name]: value});
+  };
 
   const handleDeleteMenuSelection = name => {
     const formValueUpgraded = {...formValues};
@@ -144,6 +147,7 @@ const Form = () => {
               anchorPosition={('center', 'bottom')}
               anchor={
                 <TouchableOpacity
+                  on
                   onPress={() => openMenu('diabetesTypeMenuVisible')}>
                   <TextInput
                     style={styles.textInput}
